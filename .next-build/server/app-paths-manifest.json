@@ -1,0 +1,18 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/refresh/route": "app/api/auth/refresh/route.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/credit-cards/[id]/expenses/route": "app/api/credit-cards/[id]/expenses/route.js",
+  "/api/credit-cards/[id]/route": "app/api/credit-cards/[id]/route.js",
+  "/api/expenses/[id]/route": "app/api/expenses/[id]/route.js",
+  "/credit-cards/add/page": "app/credit-cards/add/page.js",
+  "/credit-cards/page": "app/credit-cards/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/register/page": "app/register/page.js",
+  "/api/credit-cards/route": "app/api/credit-cards/route.js",
+  "/api/credit-cards/create/route": "app/api/credit-cards/create/route.js",
+  "/api/expenses/route": "app/api/expenses/route.js"
+}

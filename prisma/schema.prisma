@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String
+  passwordHash String
+  creditCards CreditCard[]
+  expenses  Expense[]
+  incomes   Income[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CreditCard {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  creditLimit     Float
+  paymentLimit    Float
+  currentBalance  Float      @default(0)
+  lastDigits      String?
+  issuer          String?
+  expenses        Expense[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+model Expense {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creditCardId    String?
+  creditCard      CreditCard? @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
+  description     String
+  amount          Float
+  category        String
+  date            DateTime
+  createdAt       DateTime   @default(now())
+
+  @@index([userId])
+  @@index([creditCardId])
+}
+
+model Income {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String
+  amount      Float
+  type        String
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
