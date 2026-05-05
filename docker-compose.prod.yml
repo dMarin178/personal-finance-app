@@ -7,12 +7,13 @@ services:
     ports:
       - "80:3000"
     environment:
-      DATABASE_URL: "file:./prisma/prod.db"
+      DATABASE_URL: "file:/app/data/prod.db"
       JWT_SECRET: ${JWT_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
       NODE_ENV: production
     volumes:
+      - ./database_data:/app/data
       - ./prisma:/app/prisma
     networks:
       - finance_network

@@ -8,6 +8,8 @@
 
 # Next.js
 /.next/
+/.next-build/
+/.next-dev/
 /out/
 
 # Production
@@ -16,6 +18,8 @@
 # Database
 /prisma/*.db
 /prisma/*.db-journal
+# Base de datos y backups
+database_data/
 
 # Misc
 .DS_Store

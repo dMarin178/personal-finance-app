@@ -2,9 +2,9 @@ name: CD
 
 on:
   workflow_run:
-    workflows: [CI]
-    types: [completed]
-    branches: [main]
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -19,8 +19,8 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+      github.event_name == 'workflow_dispatch' || (github.event_name ==
+      'workflow_run' && github.event.workflow_run.conclusion == 'success')
     timeout-minutes: 15
 
     steps:
@@ -35,8 +35,21 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.PROD_APP_PATH }}
+            # 1. Asegurar que la carpeta de base de datos existe
+            mkdir -p database_data
+            
+            # 2. Crear backup preventivo si el archivo existe
+            if [ -f "database_data/prod.db" ]; then
+              echo "Creando backup de la base de datos..."
+              cp database_data/prod.db database_data/prod_backup_$(date +%Y%m%d_%H%M%S).db
+            fi
+
+            #3. Actualizar el código, construir y desplegar la aplicación
             git fetch --all
             git checkout main
             git pull origin main
+            mkdir -p database_data # Ensure the database_data directory exists for SQLite
             docker compose -f docker-compose.prod.yml up -d --build
+
+            # 4. Limpiar imágenes Docker no utilizadas para liberar espacio
             docker image prune -f
