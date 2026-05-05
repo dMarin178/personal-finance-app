@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { authorizedFetch, isUnauthorizedError } from '@presentation/lib/auth-client';
 
@@ -37,7 +37,7 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-export default function AddExpensePage() {
+function AddExpenseContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -332,5 +332,13 @@ export default function AddExpensePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AddExpensePage() {
+  return (
+    <Suspense fallback={<div className="container">Loading...</div>}>
+      <AddExpenseContent />
+    </Suspense>
   );
 }
