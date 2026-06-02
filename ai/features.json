@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "project": "personal-finance-app",
+  "defaults": {
+    "branchPrefix": "feat/",
+    "testCommand": "npm run test -- --run",
+    "statusFlow": ["todo", "in_progress", "done", "blocked"]
+  },
+  "features": [
+    {
+      "id": "FEAT-001",
+      "title": "Complete expenses API endpoints",
+      "status": "todo",
+      "priority": "high",
+      "agent": "backend",
+      "summary": "Finish create/get/update/delete expenses endpoints with ownership checks.",
+      "scope": {
+        "include": [
+          "src/app/api/expenses/**/*.ts",
+          "src/application/use-cases/**/*.ts",
+          "src/domain/repositories/**/*.ts",
+          "src/infrastructure/database/repositories/**/*.ts",
+          "tests/unit/**/*.test.ts"
+        ],
+        "exclude": [
+          "src/app/**/*.tsx"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated users can create, read, update, and delete only their own expenses.",
+        "API returns consistent status codes and non-sensitive error payloads.",
+        "Unit tests cover success and at least one failure path."
+      ],
+      "definitionOfDone": [
+        "Code compiles with no new type errors.",
+        "Tests related to the change pass.",
+        "Feature status updated to done in this file."
+      ],
+      "notes": "Use existing use-case style and repository abstractions."
+    },
+    {
+      "id": "FEAT-002",
+      "title": "Add loading and error states to dashboard",
+      "status": "todo",
+      "priority": "medium",
+      "agent": "frontend",
+      "summary": "Improve dashboard UX with explicit loading, empty, success, and error states.",
+      "scope": {
+        "include": [
+          "src/app/dashboard/**/*.tsx",
+          "src/presentation/hooks/**/*.ts",
+          "src/presentation/components/**/*.tsx"
+        ],
+        "exclude": []
+      },
+      "acceptanceCriteria": [
+        "Dashboard shows loading indicators while data is requested.",
+        "User sees clear error messages on fetch failures.",
+        "Empty state is shown when there is no data."
+      ],
+      "definitionOfDone": [
+        "UI behaves correctly on desktop and mobile.",
+        "No regressions in existing dashboard flow.",
+        "Feature status updated to done in this file."
+      ],
+      "notes": "Preserve current visual language."
+    }
+  ]
+}

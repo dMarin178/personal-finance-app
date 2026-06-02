@@ -1,3 +1,34 @@
+## Copilot Project Guidance
+
+### Architecture Boundaries
+- Keep domain rules in src/domain and src/application/use-cases.
+- Keep API handlers thin and delegate logic to use-cases.
+- Use repository interfaces from src/domain/repositories and concrete implementations from src/infrastructure.
+- Avoid cross-layer shortcuts that bypass use-cases.
+
+### API Conventions
+- Validate route input before calling use-cases.
+- Return consistent status codes: 400, 401, 404, and 500.
+- Do not expose stack traces or internal errors in responses.
+- Enforce user ownership checks for card, expense, and income resources.
+
+### Frontend Conventions
+- Keep UI state handling explicit: loading, empty, success, error.
+- Keep component logic small and composable.
+- Preserve existing UX patterns unless redesign is requested.
+
+### Testing Expectations
+- Add or update unit tests for any business logic change.
+- Cover at least one failure path in addition to success path.
+- Keep tests deterministic and focused on observable behavior.
+
+### Implementation Rules
+- Prefer minimal, targeted changes over wide refactors.
+- Keep API response shapes stable when possible.
+- Document assumptions and risks in the final summary for non-trivial tasks.
+
+## Legacy Project Checklist
+
 - [ ] Project structure created
 - [ ] Core dependencies configured (Next.js, Tailwind, Zustand, Vitest, Playwright)
 - [ ] Domain entities and repositories defined (User, CreditCard, Expense)
