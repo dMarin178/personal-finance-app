@@ -1,11 +1,16 @@
+import { CreditCard } from '@domain/entities/credit-card';
+import { Expense } from '@domain/entities/expense';
+import { Income } from '@domain/entities/income';
+import { User } from '@domain/entities/user';
+
 // Test-only in-memory store used by unit tests.
 // Application runtime uses Prisma + SQLite through prisma-client.ts.
 
 export interface Database {
-  users: Map<string, unknown>;
-  creditCards: Map<string, unknown>;
-  expenses: Map<string, unknown>;
-  incomes: Map<string, unknown>;
+  users: Map<string, User>;
+  creditCards: Map<string, CreditCard>;
+  expenses: Map<string, Expense>;
+  incomes: Map<string, Income>;
 }
 
 let db: Database = {
