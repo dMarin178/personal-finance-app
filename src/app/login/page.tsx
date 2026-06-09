@@ -49,8 +49,8 @@ export default function LoginPage() {
 
       // Redirect to dashboard
       router.push('/dashboard');
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (error: unknown) {
+      setError('An error occurred. Please try again. ' + (error instanceof Error ? error.message : ''));
     } finally {
       setLoading(false);
     }

@@ -112,7 +112,8 @@ describe('AddExpenseUseCase', () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error).toBe('Failed to add expense');
+    expect(result.error).toContain('Failed to add expense');
+    expect(result.error).toContain('DB update failed');
 
     const userExpenses = await expenseRepository.findByUserId('user-1');
     expect(userExpenses).toHaveLength(0);

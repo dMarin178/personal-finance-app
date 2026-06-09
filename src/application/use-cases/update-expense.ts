@@ -84,10 +84,10 @@ export class UpdateExpenseUseCase extends UseCase<UpdateExpenseInput, UpdateExpe
       return {
         success: true,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to update expense',
+        error: this.getErrorMessage(error, 'Failed to update expense'),
       };
     }
   }

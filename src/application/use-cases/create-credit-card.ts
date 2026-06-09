@@ -61,10 +61,10 @@ export class CreateCreditCardUseCase extends UseCase<
         success: true,
         cardId: creditCard.id,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to create credit card',
+        error: this.getErrorMessage(error, 'Failed to create credit card'),
       };
     }
   }

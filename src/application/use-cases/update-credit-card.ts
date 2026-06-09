@@ -71,10 +71,10 @@ export class UpdateCreditCardUseCase extends UseCase<
       return {
         success: true,
       };
-    } catch {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to update credit card',
+        error: this.getErrorMessage(error, 'Failed to update credit card'),
       };
     }
   }
