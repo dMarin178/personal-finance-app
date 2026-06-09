@@ -45,10 +45,10 @@ export class GetCreditCardsUseCase extends UseCase<
           issuer: card.issuer,
         })),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to get credit cards',
+        error: this.getErrorMessage(error, 'Failed to get credit cards'),
       };
     }
   }

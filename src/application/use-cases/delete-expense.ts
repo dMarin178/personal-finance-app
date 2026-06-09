@@ -46,10 +46,10 @@ export class DeleteExpenseUseCase extends UseCase<DeleteExpenseInput, DeleteExpe
       return {
         success: true,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to delete expense',
+        error: this.getErrorMessage(error, 'Failed to delete expense'),
       };
     }
   }

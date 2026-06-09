@@ -1,4 +1,25 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: finance_app_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-personal_finance_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-app_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - finance_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app_user} -d ${POSTGRES_DB:-personal_finance_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   web:
     build:
       context: .
@@ -7,7 +28,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "file:./dev.db"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-app_user}:${POSTGRES_PASSWORD:-app_pass}@postgres:5432/${POSTGRES_DB:-personal_finance_dev}?schema=public"
       JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-super-secret-refresh-key-change-in-production}
       NEXT_PUBLIC_API_URL: http://localhost:3000/api
@@ -15,14 +36,17 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-      - ./prisma:/app/prisma
     networks:
       - finance_network
-    command: sh -c "npx prisma migrate deploy 2>/dev/null || true && npm run dev"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"
 
 networks:
   finance_network:
     driver: bridge
 
 volumes:
+  postgres_data:
   app_data:

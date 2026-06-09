@@ -35,10 +35,10 @@ export class DeleteCreditCardUseCase extends UseCase<
       return {
         success: true,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to delete credit card',
+        error: this.getErrorMessage(error, 'Failed to delete credit card'),
       };
     }
   }

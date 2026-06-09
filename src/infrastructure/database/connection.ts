@@ -2,10 +2,10 @@
 // Application runtime uses Prisma + SQLite through prisma-client.ts.
 
 export interface Database {
-  users: Map<string, any>;
-  creditCards: Map<string, any>;
-  expenses: Map<string, any>;
-  incomes: Map<string, any>;
+  users: Map<string, unknown>;
+  creditCards: Map<string, unknown>;
+  expenses: Map<string, unknown>;
+  incomes: Map<string, unknown>;
 }
 
 let db: Database = {

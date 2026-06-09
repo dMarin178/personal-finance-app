@@ -4,6 +4,14 @@ import { DeleteCreditCardUseCase } from '@application/use-cases/delete-credit-ca
 import { UpdateCreditCardUseCase } from '@application/use-cases/update-credit-card';
 import { PrismaCreditCardRepository } from '@infrastructure/database/repositories/prisma-credit-card-repository';
 
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return `${fallback}: ${error.message}`;
+  }
+
+  return fallback;
+}
+
 async function handler(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -48,10 +56,10 @@ async function handler(
         },
         { status: 200 }
       );
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Get card error:', error);
       return NextResponse.json(
-        { error: 'Failed to get credit card' },
+        { error: getErrorMessage(error, 'Failed to get credit card') },
         { status: 500 }
       );
     }
@@ -78,10 +86,10 @@ async function handler(
         { message: 'Credit card deleted successfully' },
         { status: 200 }
       );
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Delete card error:', error);
       return NextResponse.json(
-        { error: 'Failed to delete credit card' },
+        { error: getErrorMessage(error, 'Failed to delete credit card') },
         { status: 500 }
       );
     }
@@ -122,10 +130,10 @@ async function handler(
         { message: 'Credit card updated successfully' },
         { status: 200 }
       );
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Update card error:', error);
       return NextResponse.json(
-        { error: 'Failed to update credit card' },
+        { error: getErrorMessage(error, 'Failed to update credit card') },
         { status: 500 }
       );
     }

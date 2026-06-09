@@ -51,10 +51,10 @@ export class GetExpensesByCardUseCase extends UseCase<
         expenses: expenseDetails,
         totalAmount,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to get expenses',
+        error: this.getErrorMessage(error, 'Failed to get expenses'),
       };
     }
   }

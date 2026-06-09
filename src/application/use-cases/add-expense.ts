@@ -70,12 +70,12 @@ export class AddExpenseUseCase extends UseCase<AddExpenseInput, AddExpenseOutput
         try {
           creditCard.addExpense(input.amount);
           await this.creditCardRepository.update(creditCard);
-        } catch {
+        } catch (error: unknown) {
           await this.expenseRepository.delete(expense.id);
 
           return {
             success: false,
-            error: 'Failed to add expense',
+            error: this.getErrorMessage(error, 'Failed to add expense'),
           };
         }
       }
@@ -84,10 +84,10 @@ export class AddExpenseUseCase extends UseCase<AddExpenseInput, AddExpenseOutput
         success: true,
         expenseId: expense.id,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         success: false,
-        error: 'Failed to add expense',
+        error: this.getErrorMessage(error, 'Failed to add expense'),
       };
     }
   }
